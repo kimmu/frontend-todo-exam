@@ -5,27 +5,34 @@ import reducer, {initialState} from './store/reducer';
 import {
     setTodos,
     createTodo,
-    deleteTodo,
     toggleAllTodos,
     deleteAllTodos,
-    updateTodoStatus
 } from './store/actions';
 import Service from './service';
 import {TodoStatus} from './models/todo';
 import {isTodoCompleted} from './utils';
 
-type EnhanceTodoStatus = TodoStatus | 'ALL';
+import TodoToolbar from './components/TodoToolbar';
+import TodoItem from './components/TodoItem';
+import { ReactComponent as ReminderSVG } from './reminder.svg';
 
+type EnhanceTodoStatus = TodoStatus | 'ALL';
 
 const ToDoPage = ({history}: RouteComponentProps) => {
     const [{todos}, dispatch] = useReducer(reducer, initialState);
     const [showing, setShowing] = useState<EnhanceTodoStatus>('ALL');
     const inputRef = useRef<HTMLInputElement>(null);
+    const [activeClass, setActiveClass] = useState({
+        'ALL': true,
+        'ACTIVE': false,
+        'COMPLETED': false
+    });
 
     useEffect(()=>{
         (async ()=>{
             const resp = await Service.getTodos();
 
+            // local storage
             dispatch(setTodos(resp || []));
         })()
     }, [])
@@ -42,10 +49,6 @@ const ToDoPage = ({history}: RouteComponentProps) => {
                 }
             }
         }
-    }
-
-    const onUpdateTodoStatus = (e: React.ChangeEvent<HTMLInputElement>, todoId: string) => {
-        dispatch(updateTodoStatus(todoId, e.target.checked))
     }
 
     const onToggleAllTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,61 +74,42 @@ const ToDoPage = ({history}: RouteComponentProps) => {
         return isTodoCompleted(todo) ? accum : accum + 1;
     }, 0);
 
+    const toggleActiveBtn = (status: EnhanceTodoStatus) => {
+        const obj = {
+            'ALL': false,
+            'ACTIVE': false,
+            'COMPLETED': false
+        };
+        setActiveClass({ ...obj, [status]: true });
+        setShowing(status);
+    }
+
     return (
         <div className="ToDo__container">
             <div className="Todo__creation">
+                <ReminderSVG height={50} width={90}></ReminderSVG>
                 <input
                     ref={inputRef}
                     className="Todo__input"
-                    placeholder="What need to be done?"
+                    placeholder="What needs to be done?"
                     onKeyDown={onCreateTodo}
                 />
             </div>
             <div className="ToDo__list">
                 {
                     showTodos.map((todo, index) => {
-                        return (
-                            <div key={index} className="ToDo__item">
-                                <input
-                                    type="checkbox"
-                                    checked={isTodoCompleted(todo)}
-                                    onChange={(e) => onUpdateTodoStatus(e, todo.id)}
-                                />
-                                <span>{todo.content}</span>
-                                <button
-                                    className="Todo__delete"
-                                    onClick={() => dispatch(deleteTodo(todo.id))}
-                                >
-                                    X
-                                </button>
-                            </div>
-                        );
+                        return <TodoItem key={index} index={index} todo={todo} />
                     })
                 }
             </div>
-            <div className="Todo__toolbar">
-                {todos.length > 0 ?
-                    <input
-                        type="checkbox"
-                        checked={activeTodos === 0}
-                        onChange={onToggleAllTodo}
-                    /> : <div/>
-                }
-                <div className="Todo__tabs">
-                    <button className="Action__btn" onClick={()=>setShowing('ALL')}>
-                        All
-                    </button>
-                    <button className="Action__btn" onClick={()=>setShowing(TodoStatus.ACTIVE)}>
-                        Active
-                    </button>
-                    <button className="Action__btn" onClick={()=>setShowing(TodoStatus.COMPLETED)}>
-                        Completed
-                    </button>
-                </div>
-                <button className="Action__btn" onClick={onDeleteAllTodo}>
-                    Clear all todos
-                </button>
-            </div>
+            <TodoToolbar 
+                todos={todos}
+                activeTodos={activeTodos}
+                onToggleAllTodo={onToggleAllTodo}
+                activeClass={activeClass}
+                toggleActiveBtn={toggleActiveBtn}
+                onDeleteAllTodo={onDeleteAllTodo}
+            />
         </div>
     );
 };

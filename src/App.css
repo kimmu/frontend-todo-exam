@@ -1,3 +1,13 @@
+* {
+  font-family: 'Poppins';
+}
+
+body {
+  background: #396afc;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #2948ff, #396afc);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #2948ff, #396afc); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
 .App {
   text-align: center;
   display: flex;
@@ -19,17 +29,54 @@ button:hover {
 }
 
 input[type="checkbox"] {
-  width: 24px;
-  height: 24px;
+  /* width: 20px; */
+  /* height: 20px; */
   box-shadow: none;
   border: none;
   outline: none;
+  margin-left: 20px;
+  margin-right: 10px;
+
+  appearance: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 20%;
+  -webkit-appearance: none;
+  background-color: rgba(187, 222, 251, 0.4);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+input[type="checkbox"]:hover {
+  cursor: pointer;
+  background-color: #82B1FF;
+}
+
+input[type="checkbox"]:after {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 20px;
+  content: "\f00c";
+  color: #FFF;
+  display: none;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #82B1FF;
+}
+
+input[type="checkbox"]:checked:after {
+  display: block;
 }
 
 input[type="checkbox"]:focus {
   box-shadow: none;
   border: none;
   outline: none;
+  /* width: 30px; */
+  color: black;
 }
 
 input {
@@ -37,22 +84,20 @@ input {
   border: none;
   outline: none;
   padding: 0 12px;
-  box-shadow: 2px 0 4px rgba(0,0,0, 0.2);
   border-radius: 4px;
 }
 
 input:focus {
-  box-shadow: 1px 0 9px rgba(0,0,0, 0.25);
+  border: 2px solid #64B5F6;
 }
 
 .ToDo__container {
-  border: 1px solid rgba(0,0,0, 0.13);
+  border: 1px solid rgba(0,0,0, 0.1);
+  background: #FFF;
   border-radius: 8px;
   width: 500px;
-  margin-top: 5rem;
-  padding: 24px;
-  box-shadow: 2px 2px 1px rgba(0,0,0, 0.09),
-              3px 2px 3px rgba(0,0,0, 0.05);
+  margin-top: 5%;
+  padding: 50px;
 }
 
 .Todo__creation {
@@ -61,6 +106,10 @@ input:focus {
 
 .Todo__input {
   flex: 1 1;
+  border: 2px solid #BBDEFB;
+  border-radius: 30px;
+  height: 50px;
+  padding-left: 25px;
 }
 
 .ToDo__list {
@@ -73,6 +122,19 @@ input:focus {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-radius: 30px;
+  margin-top: 25px;
+  height: 50px;
+  background-color: #E3F2FD;
+  color: #64B5F6;
+  font-weight: bold;
+}
+
+.ToDo__item:hover {
+  transition: 0.5s;
+  transform: translateY(-10px);
+  box-shadow: 2px 2px 1px rgba(0,0,0, 0.09),
+              3px 2px 3px rgba(0,0,0, 0.05);
 }
 
 .ToDo__item > span {
@@ -98,7 +160,20 @@ input:focus {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  margin-right: 10px;
+  background-color: white;
+  padding: 18px;
+  color: #90CAF9;
+  font-size: 0.9rem;
+  font-weight: bold;
 }
+
+.Todo__delete:hover {
+  background-color: #90CAF9;
+  color: white;
+  transition: 0.5s;
+}
+
 
 .Todo__action, .Todo__delete {
   width: 24px;
@@ -109,7 +184,7 @@ input:focus {
 .Todo__toolbar {
   display: flex;
   justify-content: space-between;
-  margin-top: 24px;
+  margin-top: 14px;
 }
 
 .Todo__tabs {
@@ -122,4 +197,65 @@ input:focus {
 }
 
 .Action__btn {
+  border: 2px solid #82B1FF;
+  background-color: #FFF;
+  color: #82B1FF;
+  font-weight: bold;
+  border-radius: 30px;
+  padding: 10px;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.Action__btn:hover {
+  color: white;
+  border-color: #396afc;
+  transition: 0.5s;
+  transform: translateY(-8px);
+
+  background: #396afc;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #2948ff, #396afc);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #2948ff, #396afc);
+}
+
+.active {
+  color: white;
+  border-color: #396afc;
+
+  background: #396afc;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #2948ff, #396afc);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #2948ff, #396afc); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.Todo__item__text {
+  cursor: pointer;
+}
+
+.Todo__edit {
+  width: 100%;
+  margin-right: 15px;
+}
+
+
+
+/* Sign in page */
+#user_id, #password {
+  border-radius: 30px;
+  padding: 10px;
+  padding-left: 25px;
+  width: 400px;
+  margin: 10px;
+}
+
+#login-btn {
+  background-color: #82B1FF;
+  color: #FFF;
+  letter-spacing: 2px;
+  font-weight: bold;
+  border-radius: 30px;
+
+  box-shadow: none;
+  cursor: pointer;
+  width: 300px;
+  padding: 20px;
 }

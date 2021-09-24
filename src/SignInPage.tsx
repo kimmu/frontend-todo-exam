@@ -27,13 +27,13 @@ const SignInPage = () => {
     }
 
     return (
-        <div style={{marginTop: '3rem', textAlign: 'left'}}>
+        <div style={{marginTop: '3rem', textAlign: 'center'}}>
             <form onSubmit={signIn}>
                 <label htmlFor="user_id">
-                    User id
                     <input
                         id="user_id"
                         name="userId"
+                        placeholder="User ID"
                         value={form.userId}
                         style={{marginTop: 12}}
                         onChange={onChangeField}
@@ -41,18 +41,18 @@ const SignInPage = () => {
                 </label>
                 <br/>
                 <label htmlFor="password" >
-                    Password
                     <input
                         id="password"
                         name="password"
                         type="password"
+                        placeholder="Password"
                         style={{marginTop: 12}}
                         value={form.password}
                         onChange={onChangeField}
                     />
                 </label>
                 <br />
-                <button type="submit" style={{marginTop: 12}}>
+                <button id="login-btn" type="submit" style={{marginTop: 12}}>
                     Sign in
                 </button>
             </form>
