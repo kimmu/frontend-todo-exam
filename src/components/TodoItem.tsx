@@ -13,10 +13,11 @@ import {
 
 type Props = {
     index: number,
-    todo: Todo
+    todo: Todo,
+    onDeleteTodo: (todoId: string) => void
 };
 
-const TodoItem = ({index, todo} : Props) => {
+const TodoItem = ({index, todo, onDeleteTodo} : Props) => {
 
     const [{}, dispatch] = useReducer(reducer, initialState);
     const [textToggle, setTextToggle] = useState({ toggle: false, item: -1 });
@@ -82,7 +83,7 @@ const TodoItem = ({index, todo} : Props) => {
 
             <button
                 className="Todo__delete"
-                onClick={() => dispatch(deleteTodo(todo.id))}
+                onClick={() => onDeleteTodo(todo.id)}
             >
                 x
             </button>

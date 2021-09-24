@@ -5,6 +5,7 @@ import reducer, {initialState} from './store/reducer';
 import {
     setTodos,
     createTodo,
+    deleteTodo,
     toggleAllTodos,
     deleteAllTodos,
 } from './store/actions';
@@ -39,6 +40,7 @@ const ToDoPage = ({history}: RouteComponentProps) => {
 
     const onCreateTodo = async (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter' && inputRef.current) {
+            if (inputRef.current.value.trim() === '') return;
             try {
                 const resp = await Service.createTodo(inputRef.current.value);
                 dispatch(createTodo(resp));
@@ -54,6 +56,8 @@ const ToDoPage = ({history}: RouteComponentProps) => {
     const onToggleAllTodo = (e: React.ChangeEvent<HTMLInputElement>) => {
         dispatch(toggleAllTodos(e.target.checked))
     }
+
+    const onDeleteTodo = (todoId: string) => dispatch(deleteTodo(todoId));
 
     const onDeleteAllTodo = () => {
         dispatch(deleteAllTodos());
@@ -98,7 +102,7 @@ const ToDoPage = ({history}: RouteComponentProps) => {
             <div className="ToDo__list">
                 {
                     showTodos.map((todo, index) => {
-                        return <TodoItem key={index} index={index} todo={todo} />
+                        return <TodoItem key={index} index={index} todo={todo} onDeleteTodo={onDeleteTodo} />
                     })
                 }
             </div>
